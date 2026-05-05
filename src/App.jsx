@@ -1,70 +1,73 @@
-import { useEffect, useState } from "react";
-import studentsData from "./data/students";
-import StudentCard from "./components/StudentCard";
+import { ThemeProvider } from "./context/ThemeContext";
+import { StudentProvider, useStudents } from "./context/StudentContext";
 import DashboardHeader from "./components/DashboardHeader";
 import SearchBar from "./components/SearchBar";
 import SortControls from "./components/SortControls";
+import StudentCard from "./components/StudentCard";
+import AddStudentForm from "./components/AddStudentForm";
+import { useEffect } from "react";
 
-function App() {
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("default");
-  const [favorites, setFavorites] = useState(0);
+function Dashboard() {
+  const { students, search, sort } = useStudents();
 
-  useEffect(() => {
-    setTimeout(() => {
-      setStudents(studentsData);
-      setLoading(false);
-    }, 1500);
-  }, []);
-
-  const filteredStudents = students.filter((s) =>
+  const filtered = students.filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase()) ||
     s.major.toLowerCase().includes(search.toLowerCase())
   );
 
-  const sortedStudents = [...filteredStudents].sort((a, b) => {
+  const sorted = [...filtered].sort((a, b) => {
     if (sort === "name") return a.name.localeCompare(b.name);
     if (sort === "gpa") return b.gpa - a.gpa;
     return 0;
   });
 
   useEffect(() => {
-    document.title = `Dashboard — ${filteredStudents.length} Students`;
-  }, [filteredStudents.length]);
-
-  const handleFavorite = () => {
-    setFavorites((prev) => prev + 1);
-  };
+    document.title = `Dashboard — ${filtered.length} Students`;
+  }, [filtered.length]);
 
   return (
     <div>
-      <DashboardHeader favorites={favorites} />
+      <DashboardHeader />
 
-      <div style={{ padding: "20px" }}>
-        <SearchBar search={search} setSearch={setSearch} />
-      </div>
+      <SearchBar />
+      <SortControls />
 
-      <div style={{ padding: "0 20px 20px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
-        <SortControls setSort={setSort} />
-      </div>
+      {/* MAIN 50/50 LAYOUT FIX */}
+      <div style={{
+        display: "flex",
+        gap: "20px",
+        padding: "20px",
+        alignItems: "flex-start"
+      }}>
 
-      <div style={{ padding: "20px" }}>
-        {loading ? (
-          <h3>Loading students...</h3>
-        ) : (
-          sortedStudents.map((student) => (
-            <StudentCard
-              key={student.id}
-              {...student}
-              onFavorite={handleFavorite}
-            />
-          ))
-        )}
+        {/* LEFT SIDE - STUDENTS (50%) */}
+        <div style={{
+          width: "50%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px"
+        }}>
+          {sorted.map((s) => (
+            <StudentCard key={s.id} student={s} />
+          ))}
+        </div>
+
+        {/* RIGHT SIDE - FORM (50%) */}
+        <div style={{ width: "50%" }}>
+          <AddStudentForm />
+        </div>
+
       </div>
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <ThemeProvider>
+      <StudentProvider>
+        <Dashboard />
+      </StudentProvider>
+    </ThemeProvider>
+  );
+}

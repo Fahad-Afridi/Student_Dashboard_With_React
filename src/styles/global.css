@@ -4,16 +4,42 @@
     --text: #111827;
     --card-bg: #ffffff;
     --radius: 12px;
-    --spacing: 16px;
   }
   
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
   }
   
+  /* LIGHT MODE */
+  body.light {
+    background: var(--bg);
+    color: var(--text);
+    --card-bg: #ffffff;
+  }
+  
+  /* DARK MODE */
+  body.dark {
+    background: #0f172a;
+    color: #ffffff;
+    --card-bg: #1e293b;
+  }
+  
+  /* FORCE EVERYTHING TO BE WHITE IN DARK MODE */
+  body.dark * {
+    color: #ffffff !important;
+  }
+  
+  /* CARD STYLING */
+  .card {
+    background: var(--card-bg);
+    color: inherit;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  /* BUTTONS */
   button {
     background: var(--primary);
     color: white;
@@ -22,21 +48,12 @@
     margin-right: 8px;
     border-radius: 8px;
     cursor: pointer;
-    transition: 0.2s ease;
   }
   
-  button:hover {
-    background: #4f46e5;
-  }
-  
+  /* INPUT */
   input {
-    border: 1px solid #d1d5db;
+    padding: 10px;
     border-radius: 8px;
-    outline: none;
-    transition: 0.2s ease;
-  }
-  
-  input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
   }

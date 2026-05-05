@@ -10,7 +10,7 @@ const students = [
     {
       id: "224902",
       name: "Jubayer Shuvon",
-      avatar: "https://i.pravatar.cc/150?img=2",
+      avatar: "https://i.pravatar.cc/150?img=11",
       gpa: 3.5,
       major: "Software Engineering",
       courses: ["React", "Node", "DBMS"]
@@ -26,7 +26,7 @@ const students = [
     {
       id: "224904",
       name: "Tanjimul Siam",
-      avatar: "https://i.pravatar.cc/150?img=4",
+      avatar: "https://i.pravatar.cc/150?img=10",
       gpa: 3.8,
       major: "Cyber Security",
       courses: ["Network", "Security", "Ethical Hacking"]

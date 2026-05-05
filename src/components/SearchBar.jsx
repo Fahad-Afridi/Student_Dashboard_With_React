@@ -1,16 +1,18 @@
-function SearchBar({ search, setSearch }) {
-    return (
+import { useStudents } from "../context/StudentContext";
+
+function SearchBar() {
+  const { search, setSearch } = useStudents();
+
+  return (
+    <div style={{ padding: "20px" }}>
       <input
-        type="text"
-        placeholder="Search by name or major..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        style={{
-          padding: "10px",
-          width: "300px"
-        }}
+        placeholder="Search student..."
+        style={{ padding: "10px", width: "300px" }}
       />
-    );
-  }
-  
-  export default SearchBar;
+    </div>
+  );
+}
+
+export default SearchBar;

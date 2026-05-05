@@ -1,11 +1,13 @@
 function CourseTag({ courseName, color }) {
     return (
       <span style={{
-        background: color || "#ddd",
+        background: color,
+        color: "white",
         padding: "5px 10px",
         borderRadius: "20px",
+        marginRight: "5px",
         fontSize: "12px",
-        marginRight: "5px"
+        display: "inline-block"
       }}>
         {courseName}
       </span>

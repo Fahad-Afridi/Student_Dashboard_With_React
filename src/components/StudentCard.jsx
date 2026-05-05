@@ -1,39 +1,43 @@
 import { useState } from "react";
+import { useStudents } from "../context/StudentContext";
 import StatBadge from "./StatBadge";
 import CourseTag from "./CourseTag";
 
-function StudentCard({ name, id, avatar, gpa, major, courses, onFavorite }) {
-  const [favorite, setFavorite] = useState(false);
+function StudentCard({ student }) {
+  const { setFavorites, removeStudent } = useStudents();
+  const [fav, setFav] = useState(false);
 
-  const toggleFavorite = () => {
-    setFavorite(!favorite);
-    if (!favorite) onFavorite();
+  const toggleFav = () => {
+    setFav(!fav);
+    if (!fav) setFavorites((p) => p + 1);
   };
 
   return (
     <div style={{
-      background: "white",
+      background: "var(--card-bg)",
       padding: "16px",
       borderRadius: "12px",
-      marginBottom: "16px",
       boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
     }}>
-      <img src={avatar} alt={name} width="80" />
+      <img src={student.avatar} width="80" />
 
-      <h3>{name}</h3>
+      <h3>{student.name}</h3>
 
-      <button onClick={toggleFavorite}>
-        {favorite ? "💖 Favorite" : "🤍 Favorite"}
+      <button onClick={toggleFav}>
+        {fav ? "💖 Favorite" : "🤍 Favorite"}
       </button>
 
-      <p>ID: {id}</p>
-      <p>Major: {major}</p>
+      <button onClick={() => removeStudent(student.id)}>
+        Remove
+      </button>
 
-      <StatBadge label="GPA" value={gpa} />
+      <p>{student.major}</p>
 
-      <div style={{ marginTop: "10px" }}>
-        {courses.map((c, i) => (
-          <CourseTag key={i} courseName={c} color="#e0e7ff" />
+      <StatBadge label="GPA" value={student.gpa} />
+
+      <div>
+        {student.courses.map((c, i) => (
+          <CourseTag key={i} courseName={c} color="#6366f1" />
         ))}
       </div>
     </div>
